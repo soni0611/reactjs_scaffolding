@@ -2,7 +2,8 @@ name: PR Checks
 
 on:
   pull_request:
-    types: [opened,synchronize,reopened] # Run checks on PRs targeting the 'main' branch
+    branches:
+      - main
 
 jobs:
   pr-checks:
@@ -17,19 +18,24 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: "pnpm" # Use pnpm caching
+          cache: 'pnpm'
 
-      - name: Install pnpm
-        run: npm install -g pnpm 
+      - name: Setup pnpm  # ✅ Correct way to install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8  # Adjust version if needed
+
+      - name: Verify pnpm installation
+        run: pnpm --version  # ✅ Check if pnpm is available
 
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run lint
-        run: pnpm run lint # Ensure you have a lint script in package.json
+      - name: Run Lint
+        run: pnpm run lint
 
       - name: Run Tests
-        run: pnpm test -- --coverage # Run tests with coverage report
+        run: pnpm test -- --coverage
 
       - name: Build Application
-        run: pnpm run build # Ensure build passes
+        run: pnpm run build
