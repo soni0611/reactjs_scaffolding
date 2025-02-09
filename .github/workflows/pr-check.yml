@@ -1,0 +1,32 @@
+name: PR Checks
+
+on:
+  pull_request:
+    branches: -main # Run checks on PRs targeting the 'main' branch
+
+jobs:
+  pr-checks:
+    name: PR Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: "pnpm" # Use pnpm caching
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run lint
+        run: pnpm run lint # Ensure you have a lint script in package.json
+
+      - name: Run Tests
+        run: pnpm test -- --coverage # Run tests with coverage report
+
+      - name: Build Application
+        run: pnpm run build # Ensure build passes
