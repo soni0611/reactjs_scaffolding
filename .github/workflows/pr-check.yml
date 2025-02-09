@@ -31,7 +31,7 @@ jobs:
         run: pnpm run lint
 
       - name: Run Tests
-        run: pnpm test
+        run: pnpm test --coverage
 
       - name: Build Application
         run: pnpm run build
