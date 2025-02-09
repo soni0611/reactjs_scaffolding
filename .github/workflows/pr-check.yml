@@ -2,7 +2,7 @@ name: PR Checks
 
 on:
   pull_request:
-    branches: -main # Run checks on PRs targeting the 'main' branch
+    types: [opened,synchronize,reopened] # Run checks on PRs targeting the 'main' branch
 
 jobs:
   pr-checks:
